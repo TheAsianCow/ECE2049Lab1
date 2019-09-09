@@ -3,6 +3,8 @@
 /**************  AND MICHAEL MCCUE *****************/
 /***************************************************/
 
+//Testing GitHub
+
 #include <msp430.h>
 #include "peripherals.h"
 #include <stdlib.h>
