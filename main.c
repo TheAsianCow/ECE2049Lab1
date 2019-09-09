@@ -25,26 +25,19 @@ void main(void){
 
     unsigned char currKey = 0;
     unsigned long int loopCnt = 0, i = 0;
-    unsigned int gameStart = 0, difficulty = 0, a = 0, aliens = 0, rows = 0;
+    unsigned int gameStart = 0, difficulty = 0, a = 0, aliens = 0, rows = 0, speed=400;
     enum State s = DEFAULT;
     char level[10] = "LEVEL 1";
     //loopCnt counts the number of loops during the game, gameStart 0 to not start count, 1 to start counting during game
     //difficulty is used to calculate how fast the aliens descend
 
-//    for(i = 0; i < 1; i++){
-//        for(a = 0; a < 5; a++) {
-//            gameBoard[i][a][0] = ((rand() % 6) + 0x30);
-//            if(gameBoard[i][a][0] == '0') gameBoard[i][a][0] = ' ';
-//            else aliens++;
-//        }
-//    }
-
     while(1){
         currKey = getKey();
+
         if(currKey == '*' && !gameStart) s = START;
         if(gameStart){
           if(currKey>=1&&currKey<=5) s = INPUT;
-          if(loopCnt%(500-20*difficulty)==0) s = DESCEND;
+          if(loopCnt%speed==0) s = DESCEND;
           if(aliens==0&&rows==0) s = ADVANCE;
         }
         switch(s){
@@ -67,7 +60,7 @@ void main(void){
             Graphics_clearDisplay(&g_sContext);
             Graphics_drawStringCentered(&g_sContext, "Starting in: ", AUTO_STRING_LENGTH, 48, 48, TRANSPARENT_TEXT);
             Graphics_flushBuffer(&g_sContext);
-            i = 50000;
+            i = 40000;
             while(i)i--;
             for(i = 0; i <= 20000; i++){
               if(i==0){
@@ -143,6 +136,7 @@ void main(void){
                     rows = 0;
                     difficulty = 0;
                     sprintf(level,"LEVEL %c", 49);
+                    speed = 400;
                     clearBoard();
                     i = 100000;
                     while(i)i--;
@@ -161,6 +155,7 @@ void main(void){
           case ADVANCE:
               difficulty++;
               loopCnt = 0;
+              speed -= 20;
               sprintf(level,"LEVEL %c", difficulty+49);
               Graphics_clearDisplay(&g_sContext);
               Graphics_drawStringCentered(&g_sContext, level, AUTO_STRING_LENGTH, 48, 48, TRANSPARENT_TEXT);
